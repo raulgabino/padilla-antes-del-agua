@@ -1,0 +1,7 @@
+{
+  "__instrucciones": "Mapea cada PNG original al nombre WebP final. El script ignora claves que empiezan con __.",
+  "__ejemplo": {
+    "ChatGPT Image 25 abr 2026, 10_13_35 p.m..png": "n02-fachada-frontal.webp",
+    "ChatGPT Image 25 abr 2026, 10_23_57 p.m..png": "n03-escalinata-arco.webp"
+  }
+}

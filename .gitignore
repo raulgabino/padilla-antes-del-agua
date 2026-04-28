@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+.vercel
+.env*
+*.log
+.DS_Store
+assets-originales
+public/scenes/1950/*.png
+public/scenes/1950/backup-*
