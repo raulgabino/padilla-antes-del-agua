@@ -29,6 +29,8 @@ export type GyroscopeControls = {
   isEnabled: () => boolean;
   start: () => Promise<void>;
   stop: () => void;
+  addEventListener?: (event: "gyroscope-updated", callback: (event: { gyroscopeEnabled: boolean }) => void) => void;
+  removeEventListener?: (event: "gyroscope-updated", callback: (event: { gyroscopeEnabled: boolean }) => void) => void;
 };
 
 function escapeXml(value: string) {
@@ -277,6 +279,7 @@ export function PanoramaViewer({ scene, onNavigate, onGyroscopeReady }: Panorama
       setIsFallback(panorama.startsWith("data:") || panorama.startsWith("blob:"));
       const viewer = viewerRef.current;
       if (viewer) {
+        const gyroscopeEnabled = gyroscopeRef.current?.isEnabled() ?? false;
         const finishUpdateLoad = () => {
           if (cancelled) return;
           loadedSceneIdRef.current = scene.id;
@@ -291,7 +294,9 @@ export function PanoramaViewer({ scene, onNavigate, onGyroscopeReady }: Panorama
             transition: { speed: 700, effect: "fade" },
             showLoader: false
           });
-          viewer.animate({ yaw: 0, pitch: -0.03, zoom: 34, speed: "4rpm" });
+          if (!gyroscopeEnabled) {
+            viewer.animate({ yaw: 0, pitch: -0.03, zoom: 34, speed: "4rpm" });
+          }
         } finally {
           finishUpdateLoad();
         }
