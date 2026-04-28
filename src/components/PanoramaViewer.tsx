@@ -259,6 +259,8 @@ export function PanoramaViewer({ scene, onNavigate, onGyroscopeReady }: Panorama
     let cancelled = false;
 
     async function updateScene() {
+      if (!viewerRef.current) return;
+
       if (scene.id === loadedSceneIdRef.current) {
         markersRef.current?.setMarkers(buildMarkers(scene));
         viewerRef.current?.autoSize();

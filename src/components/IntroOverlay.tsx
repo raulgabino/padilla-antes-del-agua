@@ -4,10 +4,9 @@ import { ArrowRight, Eye, MapPin } from "lucide-react";
 
 type IntroOverlayProps = {
   onEnter: () => void;
-  onSkipToFirstNode?: () => void;
 };
 
-export function IntroOverlay({ onEnter, onSkipToFirstNode }: IntroOverlayProps) {
+export function IntroOverlay({ onEnter }: IntroOverlayProps) {
   return (
     <section className="fixed inset-0 z-[9999] overflow-hidden bg-night text-paper">
       <div
@@ -53,13 +52,6 @@ export function IntroOverlay({ onEnter, onSkipToFirstNode }: IntroOverlayProps) 
             >
               Entrar al recorrido
               <ArrowRight size={17} />
-            </button>
-            <button
-              type="button"
-              onClick={onSkipToFirstNode ?? onEnter}
-              className="inline-flex min-h-12 items-center justify-center rounded-md border border-paper/18 bg-night/38 px-5 py-3 text-sm font-medium text-paper/84 backdrop-blur-md transition hover:border-sepia/60 hover:text-paper"
-            >
-              Ir directo al nodo 1
             </button>
           </div>
         </div>

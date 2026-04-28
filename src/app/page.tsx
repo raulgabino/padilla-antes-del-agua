@@ -30,45 +30,58 @@ export default function Home() {
     goToScene(target);
   };
 
+  const enterTour = () => {
+    setSceneId(scenes[0].id);
+    setMobileOpen(false);
+    setPanelHidden(false);
+    setShowIntro(false);
+  };
+
   return (
     <main className="relative h-[100dvh] w-screen overflow-hidden bg-night text-paper">
-      <PanoramaViewer scene={scene} onNavigate={goToScene} onGyroscopeReady={setGyroscopeControls} />
-      {!showIntro && <GyroscopeControl controls={gyroscopeControls} />}
+      {showIntro ? (
+        <IntroOverlay onEnter={enterTour} />
+      ) : (
+        <>
+          <PanoramaViewer scene={scene} onNavigate={goToScene} onGyroscopeReady={setGyroscopeControls} />
+          <GyroscopeControl controls={gyroscopeControls} />
 
-      <div className="pointer-events-none absolute left-4 right-4 top-4 z-10 flex items-start justify-between md:left-auto">
-        <div className="md:hidden">
-          <p className="text-xs uppercase tracking-[0.22em] text-sepia drop-shadow">Padilla antes del agua</p>
-          <p className="mt-1 text-sm text-paper/80 drop-shadow">1950</p>
-        </div>
-        <div className="ml-auto rounded-full border border-paper/15 bg-night/58 px-3 py-2 text-xs text-paper/76 backdrop-blur-md">
-          Nodo {currentIndex + 1} de {scenes.length}
-        </div>
-      </div>
+          <div className="pointer-events-none absolute left-4 right-4 top-4 z-10 flex items-start justify-between md:left-auto">
+            <div className="md:hidden">
+              <p className="text-xs uppercase tracking-[0.22em] text-sepia drop-shadow">Padilla antes del agua</p>
+              <p className="mt-1 text-sm text-paper/80 drop-shadow">1950</p>
+            </div>
+            <div className="ml-auto rounded-full border border-paper/15 bg-night/58 px-3 py-2 text-xs text-paper/76 backdrop-blur-md">
+              Nodo {currentIndex + 1} de {scenes.length}
+            </div>
+          </div>
 
-      <ScenePanel
-        scene={scene}
-        currentIndex={currentIndex}
-        total={scenes.length}
-        hidden={panelHidden}
-        onToggle={() => setPanelHidden(true)}
-        onHome={() => goToScene(scenes[0].id)}
-        onNext={goNext}
-        onHelp={() => setHelpOpen(true)}
-      />
-      <FloatingPanelToggle hidden={panelHidden} onToggle={() => setPanelHidden(false)} />
-      <BottomSceneNav scenes={scenes} currentSceneId={scene.id} onSelect={goToScene} />
-      <MobileSceneDrawer
-        scene={scene}
-        scenes={scenes}
-        currentIndex={currentIndex}
-        total={scenes.length}
-        open={mobileOpen}
-        onToggle={() => setMobileOpen((value) => !value)}
-        onSelect={goToScene}
-        onHome={() => goToScene(scenes[0].id)}
-        onNext={goNext}
-        onHelp={() => setHelpOpen(true)}
-      />
+          <ScenePanel
+            scene={scene}
+            currentIndex={currentIndex}
+            total={scenes.length}
+            hidden={panelHidden}
+            onToggle={() => setPanelHidden(true)}
+            onHome={() => goToScene(scenes[0].id)}
+            onNext={goNext}
+            onHelp={() => setHelpOpen(true)}
+          />
+          <FloatingPanelToggle hidden={panelHidden} onToggle={() => setPanelHidden(false)} />
+          <BottomSceneNav scenes={scenes} currentSceneId={scene.id} onSelect={goToScene} />
+          <MobileSceneDrawer
+            scene={scene}
+            scenes={scenes}
+            currentIndex={currentIndex}
+            total={scenes.length}
+            open={mobileOpen}
+            onToggle={() => setMobileOpen((value) => !value)}
+            onSelect={goToScene}
+            onHome={() => goToScene(scenes[0].id)}
+            onNext={goNext}
+            onHelp={() => setHelpOpen(true)}
+          />
+        </>
+      )}
 
       {helpOpen && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/58 p-4 backdrop-blur-sm">
@@ -94,16 +107,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-      )}
-
-      {showIntro && (
-        <IntroOverlay
-          onEnter={() => setShowIntro(false)}
-          onSkipToFirstNode={() => {
-            goToScene("llegada");
-            setShowIntro(false);
-          }}
-        />
       )}
     </main>
   );
