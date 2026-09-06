@@ -1,61 +1,26 @@
 "use client";
 
-import { ArrowRight, Eye, MapPin } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, BookOpen, MapPin } from "lucide-react";
+import assets from "@/data/scene-assets.json";
 
-type IntroOverlayProps = {
-  onEnter: () => void;
-};
-
-export function IntroOverlay({ onEnter }: IntroOverlayProps) {
-  return (
-    <section className="fixed inset-0 z-[9999] overflow-hidden bg-night text-paper">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/intro/padilla-entrada.png')" }}
-        aria-hidden="true"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-night/30 via-night/50 to-night/92" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,transparent_0%,rgba(17,16,13,0.28)_58%,rgba(17,16,13,0.7)_100%)]" />
-
-      <div className="relative z-10 flex min-h-[100dvh] items-end px-5 pb-[calc(2rem+env(safe-area-inset-bottom))] pt-8 md:items-center md:px-12 md:pb-10">
-        <div className="w-full max-w-3xl">
-          <div className="mb-5 flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.18em] text-paper/78">
-            <span className="inline-flex items-center gap-2 rounded-full border border-paper/18 bg-night/45 px-3 py-2 backdrop-blur-md">
-              <MapPin size={14} className="text-sepia" />
-              Viejo Padilla, Tamaulipas
-            </span>
-            <span className="rounded-full border border-paper/18 bg-night/45 px-3 py-2 text-sepia backdrop-blur-md">1950</span>
-          </div>
-
-          <h1 className="max-w-2xl text-4xl font-semibold leading-none text-paper drop-shadow md:text-6xl">
-            Padilla antes del agua
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-paper/84 drop-shadow md:text-lg">
-            Una exploración histórica interpretativa de la antigua escuela de Viejo Padilla antes de la construcción de la presa Vicente Guerrero.
-          </p>
-
-          <div className="mt-6 max-w-2xl rounded-lg border border-paper/14 bg-night/58 p-4 text-sm leading-relaxed text-paper/78 shadow-soft backdrop-blur-md md:p-5">
-            <div className="mb-2 flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-sepia">
-              <Eye size={15} />
-              Punto de partida
-            </div>
-            <p>
-              Esta imagen funciona como umbral visual. A partir de los rastros del edificio, el recorrido reconstruye de forma sobria cómo pudo sentirse la escuela en una jornada de 1950.
-            </p>
-          </div>
-
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <button
-              type="button"
-              onClick={onEnter}
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-sepia px-5 py-3 text-sm font-semibold text-night transition hover:bg-paper"
-            >
-              Entrar al recorrido
-              <ArrowRight size={17} />
-            </button>
-          </div>
+export function IntroOverlay({ onEnter, onSources }: { onEnter: () => void; onSources: () => void }) {
+  return <section className="fixed inset-0 z-40 overflow-y-auto bg-night text-paper">
+    <Image src={assets["plaza-vista-escuela"].image} alt="Recreación de la antigua escuela de Padilla con su acceso de tres arcos." fill priority sizes="100vw" className="object-cover object-[48%_center]" />
+    <div className="absolute inset-0 bg-gradient-to-r from-night/[0.9] via-night/[0.55] to-night/[0.1]" />
+    <div className="absolute inset-0 bg-gradient-to-t from-night/[0.85] via-transparent to-transparent" />
+    <div className="relative flex min-h-[100dvh] items-end px-6 pb-[calc(2rem+env(safe-area-inset-bottom))] pt-12 md:items-center md:px-12">
+      <div className="max-w-xl">
+        <p className="mb-5 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-sepia"><MapPin size={15} />Villa de Padilla, Tamaulipas</p>
+        <p className="mb-3 text-sm text-paper/[0.75]">Una mirada hacia 1950</p>
+        <h1 className="text-5xl font-semibold leading-[1.03] tracking-tight md:text-7xl">Padilla antes del agua</h1>
+        <p className="mt-5 max-w-lg text-base leading-relaxed text-paper/[0.9] md:text-lg">Una escuela, sus habitantes y la vida cotidiana del pueblo antes de la presa Vicente Guerrero.</p>
+        <p className="mt-4 max-w-md text-sm leading-relaxed text-paper/[0.65]">Recorrido interpretativo con imágenes recreadas a partir de referencias del edificio y del contexto histórico.</p>
+        <div className="mt-7 flex flex-wrap gap-3">
+          <button type="button" onClick={onEnter} className="inline-flex min-h-12 items-center justify-center gap-3 rounded-md bg-sepia px-5 py-3 text-sm font-semibold text-night hover:bg-paper">Entrar al recorrido <ArrowRight size={17} /></button>
+          <button type="button" onClick={onSources} className="viewer-button text-sm"><BookOpen size={16} />Fuentes y contexto</button>
         </div>
       </div>
-    </section>
-  );
+    </div>
+  </section>;
 }

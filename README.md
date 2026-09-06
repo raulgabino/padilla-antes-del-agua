@@ -1,191 +1,67 @@
 # Padilla antes del agua
 
-Experiencia web de exploración histórica interpretativa sobre la antigua escuela de Viejo Padilla, en la zona de la Presa Vicente Guerrero, Tamaulipas, México.
+Recorrido interpretativo por la escuela Miguel Hidalgo de Viejo Padilla, Tamaulipas, ambientado **hacia 1950**. Ocho momentos de la vida escolar combinan imágenes ampliables, panoramas y fuentes históricas. Las recreaciones no sustituyen fotografías, planos o testimonios del inmueble.
 
-La aplicación reconstruye visualmente la escuela como si fuera 1950, antes de la presa. No incluye modo actual, comparación contemporánea, login, backend ni base de datos. Está pensada como un recorrido sobrio tipo Street View histórico, con panoramas 360, nodos narrativos y hotspots de navegación.
+## Desarrollo
 
-## Stack
-
-- Next.js con App Router
-- TypeScript
-- Tailwind CSS
-- Photo Sphere Viewer
-- Datos locales en `src/data/scenes.ts`
-- Deploy compatible con Vercel
-
-## Instalar
+Next.js 14, React, TypeScript, Tailwind CSS y Photo Sphere Viewer. Datos locales; no requiere variables de entorno.
 
 ```bash
-npm install
-```
-
-## Correr en local
-
-```bash
+npm ci
 npm run dev
 ```
 
-Después abre `http://localhost:3000`.
-
-## Compilar
+Abre http://localhost:3000. Para validar y compilar:
 
 ```bash
+npm run validate
 npm run build
+npm run start
 ```
 
-## Preparación de imágenes
+`validate` comprueba escenas, fuentes, enlaces, imágenes activas, pruebas del conversor y ESLint. El build comprueba también TypeScript.
 
-Los PNG originales generados con ChatGPT Image deben colocarse en:
+## Contenido
 
-```text
-assets-originales/
-```
+- `src/data/scenes.ts`: relato, notas, fuentes por escena y navegación.
+- `src/data/history.ts`: referencias, alcance y cronología.
+- `src/data/scene-assets.json`: único inventario activo de rutas, dimensiones reales y proyección.
+- [Revisión histórica](docs/revision-historica.md).
+- [Procedencia y tratamiento de imágenes](docs/imagenes.md).
 
-Después edita:
+Los enlaces antiguos se conservan mediante alias. La secuencia es narrativa: los puntos de navegación no representan conexiones medidas en un plano. Todos los dibujos se identifican como recreaciones, incluso cuando contienen elementos apoyados por una fotografía.
 
-```text
-scripts/image-map.json
-```
+## Imágenes
 
-Ese archivo asigna cada PNG original a su nombre WebP final. Ejemplo:
-
-```json
-{
-  "ChatGPT Image 25 abr 2026, 10_13_35 p.m..png": "n02-fachada-frontal.webp",
-  "ChatGPT Image 25 abr 2026, 10_23_57 p.m..png": "n03-escalinata-arco.webp"
-}
-```
-
-Si el nombre original no permite inferir el nodo correcto, revisa visualmente la imagen y completa el mapeo manualmente. El script puede sugerir asignaciones por orden al auditar, pero esas sugerencias deben confirmarse.
-
-Ejecuta la auditoría:
+Los WebP se sirven desde `public/scenes/1950/`. Las nuevas vistas de fachada, acceso y aula conservan su encuadre en un visor de imagen. Los panoramas heredados mantienen exploración 360° y la opción de imagen completa. Si WebGL2 no está disponible, se pierde el contexto gráfico o falla la carga, el recorrido pasa a imagen ampliable.
 
 ```bash
 npm run images:audit
+npm run images:check
 ```
 
-El reporte muestra nombre original, dimensiones, proporción, cumplimiento 2:1 aproximado, tamaño en MB y recomendación de nodo. Si una imagen aparece como `requiere revision`, no se deforma ni se convierte automáticamente.
+Se revisan los archivos activos de `public`, aunque no exista la carpeta de originales. Un archivo ausente o con dimensiones equivocadas hace fallar la comprobación. Los avisos de resolución son informativos.
 
-Luego convierte:
+Para incorporar originales:
 
-```bash
-npm run images:prepare
-```
+1. Añade la vista y sus metadatos a `src/data/scene-assets.json`.
+2. Coloca originales PNG, JPEG o WebP en `assets-originales/` (no se versionan).
+3. Asigna cada original a un destino activo en `scripts/image-map.json`.
+4. Ejecuta `npm run images:prepare` y `npm run images:check`.
 
-También puedes correr ambos pasos:
+El conversor conserva dimensiones y orientación, actualiza el manifiesto y evita reemplazos accidentales. Para sustituir archivos existentes usa `npm run images:prepare -- --overwrite`.
 
-```bash
-npm run images:all
-```
+Una proporción 2:1 es necesaria para un panorama equirectangular completo, pero **no demuestra que la imagen cubra una esfera**. Revisa proyección, continuidad lateral, cenit y nadir visualmente. No estires una perspectiva para obtener 2:1. Busca originales de mayor resolución; agrandar sus dimensiones no recupera información. Consulta la [documentación del adaptador](https://photo-sphere-viewer.js.org/guide/adapters/equirectangular.html).
 
-Los WebP finales quedan en:
+## Navegación
 
-```text
-public/scenes/1950/
-```
+- Escritorio: panel plegable, ocho vistas inferiores, botones de zoom y arrastre.
+- Celular: abre el título inferior para leer, avanzar, elegir vista o consultar fuentes.
+- Teclado en la imagen: +, − y 0 para zoom; flechas para desplazarla.
+- Fuentes y ayuda usan diálogos con foco contenido y cierre con Escape.
+- Cada vista tiene un fragmento de URL compartible y respeta Atrás/Adelante.
+- El movimiento del dispositivo es opcional y requiere compatibilidad y permiso.
 
-Verifica que cada imagen sea panorámica 2:1 y que los nombres coincidan con las rutas usadas en `src/data/scenes.ts`.
+## Vercel
 
-Nombres finales esperados:
-
-```text
-n01-llegada-calle-centro.webp
-n02-fachada-frontal.webp
-n03-escalinata-arco.webp
-n04-zaguan-acceso-interior.webp
-n05-corredor-principal.webp
-n06-aula-clases.webp
-n07-patio-escolar.webp
-n08-direccion-escolar.webp
-n09-vista-lateral-contexto.webp
-n10-salida-escuela.webp
-n11-salon-vacio.webp
-n12-ventana-aula-exterior.webp
-n13-alumnos-formados.webp
-n14-primer-cuadro-viejo-padilla.webp
-n15-nodo-memoria.webp
-```
-
-## Agregar imágenes panorámicas
-
-Las imágenes finales deben colocarse en:
-
-```text
-public/scenes/1950/
-```
-
-Formato recomendado:
-
-- WebP
-- 3584x1792 px
-- Relación 2:1
-- Proyección equirectangular 360
-- Nombre exacto según `src/data/scenes.ts`
-
-Ejemplo:
-
-```text
-public/scenes/1950/n06-aula-clases.webp
-```
-
-Si un archivo no existe, la app carga automáticamente un placeholder panorámico generado en el navegador. Ese placeholder muestra el nombre del nodo y la ruta esperada del asset.
-
-## Modificar escenas
-
-Las escenas están definidas en:
-
-```text
-src/data/scenes.ts
-```
-
-Cada nodo usa esta estructura:
-
-```ts
-type Scene = {
-  id: string;
-  order: number;
-  title: string;
-  subtitle: string;
-  image: string;
-  description: string;
-  historicalNote: string;
-  certainty: "documentado" | "inferido" | "interpretativo";
-  location: string;
-  isBonus?: boolean;
-  suggestedNext?: string;
-  hotspots: {
-    id: string;
-    label: string;
-    targetSceneId: string;
-    yaw: number;
-    pitch: number;
-    type: "forward" | "back" | "info";
-  }[];
-};
-```
-
-## Modificar hotspots
-
-Los hotspots se editan en el arreglo `hotspots` de cada escena.
-
-- `targetSceneId`: id de la escena destino.
-- `yaw`: posición horizontal del punto en radianes.
-- `pitch`: posición vertical del punto en radianes.
-- `type`: estilo y sentido narrativo del punto.
-
-Valores prácticos:
-
-- `yaw: 0` apunta al frente inicial.
-- `yaw: 3.14` apunta hacia atrás.
-- `pitch` cerca de `0` queda a la altura del horizonte.
-- `pitch` negativo baja el punto.
-
-## Desplegar en Vercel
-
-1. Sube el proyecto a GitHub.
-2. Crea un proyecto nuevo en Vercel.
-3. Selecciona el repositorio.
-4. Usa la configuración por defecto de Next.js.
-5. Ejecuta deploy.
-
-No se requieren variables de entorno.
+Usa la integración Git de Vercel con el preset Next.js. Las ramas de trabajo permiten revisar una vista previa antes de integrar cambios en la rama de producción.

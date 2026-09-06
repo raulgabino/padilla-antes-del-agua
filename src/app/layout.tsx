@@ -4,13 +4,12 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Padilla antes del agua",
   description:
-    "Recorrido histórico inmersivo por la antigua escuela de Viejo Padilla, Tamaulipas, ambientado en 1950."
+    "Explora una recreación de la escuela Miguel Hidalgo de Viejo Padilla, Tamaulipas, hacia 1950, con imágenes y fuentes históricas."
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
   themeColor: "#11100d"
 };
 

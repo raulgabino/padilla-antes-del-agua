@@ -4,6 +4,7 @@ out
 .vercel
 .env*
 *.log
+*.tsbuildinfo
 .DS_Store
 assets-originales
 public/scenes/1950/*.png
