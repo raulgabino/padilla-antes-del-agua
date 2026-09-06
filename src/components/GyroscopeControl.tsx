@@ -1,121 +1,62 @@
 "use client";
 
-import { Compass, Loader2, RotateCcw, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import type { GyroscopeControls } from "./PanoramaViewer";
+import { Compass, Loader2, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { enableMotion, type MotionControls } from "@/lib/motion";
 
-type GyroscopeControlProps = {
-  controls: GyroscopeControls | null;
-};
+type Props = { controls: MotionControls; disabled?: boolean };
+type GyroState = "idle" | "checking" | "enabled" | "unsupported" | "denied" | "insecure";
 
-type GyroState = "idle" | "checking" | "enabled" | "unsupported" | "denied";
-
-export function GyroscopeControl({ controls }: GyroscopeControlProps) {
+export function GyroscopeControl({ controls, disabled = false }: Props) {
   const [state, setState] = useState<GyroState>("idle");
-  const [expanded, setExpanded] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const generation = useRef(0);
 
   useEffect(() => {
-    if (!controls) {
-      setState("idle");
-      return;
-    }
-
+    generation.current += 1;
     setState(controls.isEnabled() ? "enabled" : "idle");
-
-    const handleGyroscopeUpdate = (event: { gyroscopeEnabled: boolean }) => {
+    const update = (event: { gyroscopeEnabled: boolean }) => {
       setState(event.gyroscopeEnabled ? "enabled" : "idle");
     };
-
-    controls.addEventListener?.("gyroscope-updated", handleGyroscopeUpdate);
-
+    controls.addEventListener?.("gyroscope-updated", update);
     return () => {
-      controls.removeEventListener?.("gyroscope-updated", handleGyroscopeUpdate);
+      generation.current += 1;
+      controls.removeEventListener?.("gyroscope-updated", update);
     };
   }, [controls]);
 
-  const enableGyroscope = async () => {
-    if (!controls) {
-      setState("unsupported");
+  const toggle = async () => {
+    if (controls.isEnabled()) {
+      controls.stop();
+      setState("idle");
       return;
     }
-
-    try {
-      setState("checking");
-      const supported = await controls.isSupported();
-      if (!supported) {
-        setState("unsupported");
-        return;
-      }
-
-      await controls.start();
-      const enabled = controls.isEnabled();
-      setState(enabled ? "enabled" : "denied");
-      if (enabled) setExpanded(false);
-    } catch {
-      setState("denied");
-    }
+    const current = generation.current;
+    setState("checking");
+    setShowMessage(false);
+    const orientation = typeof DeviceOrientationEvent === "undefined" ? undefined : DeviceOrientationEvent as typeof DeviceOrientationEvent & { requestPermission?: () => Promise<string> };
+    const result = await enableMotion(controls, orientation, window.isSecureContext, () => generation.current === current);
+    if (generation.current !== current || result === "cancelled") return;
+    setState(result);
+    setShowMessage(result !== "enabled");
   };
 
-  const disableGyroscope = () => {
-    controls?.stop();
-    setState("idle");
-  };
-
-  return (
-    <div className="absolute left-4 right-4 top-[4.6rem] z-20 flex justify-end md:hidden">
-      {!expanded ? (
-        <button
-          type="button"
-          onClick={() => setExpanded(true)}
-          className="inline-flex min-h-10 items-center gap-2 rounded-full border border-paper/15 bg-night/68 px-3 py-2 text-xs font-medium text-paper shadow-soft backdrop-blur-md"
-          aria-label="Opciones de movimiento"
-        >
-          <Compass size={15} className={state === "enabled" ? "text-sepia" : undefined} />
-          {state === "enabled" ? "Movimiento activo" : "Movimiento"}
-        </button>
-      ) : (
-      <div className="max-w-[15.5rem] rounded-lg border border-paper/14 bg-night/78 p-3 text-paper shadow-soft backdrop-blur-md">
-        <div className="mb-2 flex items-start justify-between gap-3">
-          <div className="flex items-center gap-2 text-xs font-medium text-sepia">
-            <Compass size={15} />
-            Movimiento
-          </div>
-          <button
-            type="button"
-            onClick={() => setExpanded(false)}
-            className="rounded-md p-1 text-paper/68 transition hover:bg-paper/10 hover:text-paper"
-            aria-label="Minimizar movimiento"
-          >
-            <X size={16} />
-          </button>
-        </div>
-        <p className="text-xs leading-relaxed text-paper/76">
-          Puedes explorar arrastrando con el dedo. Si prefieres, activa el movimiento del celular para mirar alrededor inclinándolo.
-        </p>
-
-        {state === "unsupported" && (
-          <p className="mt-2 text-xs leading-relaxed text-sepia">Este navegador o dispositivo no reporta giroscopio disponible.</p>
-        )}
-        {state === "denied" && (
-          <p className="mt-2 text-xs leading-relaxed text-sepia">No se pudo activar. Revisa el permiso de movimiento del navegador.</p>
-        )}
-
-        <button
-          type="button"
-          onClick={state === "enabled" ? disableGyroscope : enableGyroscope}
-          className="mt-3 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-md border border-paper/16 bg-paper/[0.065] px-3 py-2 text-sm font-medium text-paper transition hover:border-sepia/60"
-        >
-          {state === "checking" ? (
-            <Loader2 size={16} className="animate-spin" />
-          ) : state === "enabled" ? (
-            <RotateCcw size={16} />
-          ) : (
-            <Compass size={16} />
-          )}
-          {state === "checking" ? "Pidiendo permiso" : state === "enabled" ? "Desactivar movimiento" : "Activar movimiento"}
-        </button>
-      </div>
-      )}
-    </div>
-  );
+  return <div className="motion-controls absolute left-4 top-16 z-20 max-w-[17rem] flex-col items-start gap-2 md:left-auto md:right-4 md:top-28">
+    <button
+      type="button"
+      onClick={toggle}
+      disabled={state === "checking" || (disabled && state !== "enabled")}
+      aria-pressed={state === "enabled"}
+      className="viewer-button text-xs"
+    >
+      {state === "checking" ? <Loader2 size={16} className="animate-spin" /> : <Compass size={16} className={state === "enabled" ? "text-sepia" : undefined} />}
+      {state === "checking" ? "Pidiendo permiso…" : state === "enabled" ? "Desactivar giroscopio" : "Activar giroscopio"}
+    </button>
+    {showMessage && <div className="relative rounded-lg border border-paper/[0.15] bg-night/[0.95] p-3 pr-11 text-xs leading-relaxed text-paper" role="status">
+      <button type="button" onClick={() => setShowMessage(false)} aria-label="Cerrar aviso del giroscopio" className="absolute right-0 top-0 grid min-h-11 min-w-11 place-items-center"><X size={17} /></button>
+      {state === "unsupported" && "Este dispositivo no proporciona movimiento al recorrido. Puedes mirar alrededor arrastrando con el dedo."}
+      {state === "denied" && "No se concedió el permiso de movimiento. Puedes seguir explorando con el dedo y volver a intentarlo."}
+      {state === "insecure" && "Abre el enlace seguro del recorrido para poder activar el giroscopio."}
+    </div>}
+  </div>;
 }

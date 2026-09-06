@@ -1,0 +1,50 @@
+{
+  "plaza-vista-escuela": {
+    "image": "/scenes/1950/fachada-360-v3.webp",
+    "imageWidth": 1774,
+    "imageHeight": 887,
+    "projection": "equirectangular"
+  },
+  "fachada": {
+    "image": "/scenes/1950/acceso-360-v3.webp",
+    "imageWidth": 1774,
+    "imageHeight": 887,
+    "projection": "equirectangular"
+  },
+  "zaguan": {
+    "image": "/scenes/1950/n04-zaguan-acceso-interior.webp",
+    "imageWidth": 1774,
+    "imageHeight": 887,
+    "projection": "equirectangular"
+  },
+  "aula": {
+    "image": "/scenes/1950/aula-360-v3.webp",
+    "imageWidth": 1774,
+    "imageHeight": 887,
+    "projection": "equirectangular"
+  },
+  "direccion": {
+    "image": "/scenes/1950/n09-direccion-oficina.webp",
+    "imageWidth": 1774,
+    "imageHeight": 887,
+    "projection": "equirectangular"
+  },
+  "sala-maestras": {
+    "image": "/scenes/1950/n12-reunion-maestras.webp",
+    "imageWidth": 1774,
+    "imageHeight": 887,
+    "projection": "equirectangular"
+  },
+  "salida-corredor": {
+    "image": "/scenes/1950/n13-salida-corredor.webp",
+    "imageWidth": 1774,
+    "imageHeight": 887,
+    "projection": "equirectangular"
+  },
+  "memoria": {
+    "image": "/scenes/1950/fachada-360-v3.webp",
+    "imageWidth": 1774,
+    "imageHeight": 887,
+    "projection": "equirectangular"
+  }
+}

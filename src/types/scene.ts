@@ -15,9 +15,15 @@ export type Scene = {
   title: string;
   subtitle: string;
   image: string;
+  imageWidth: number;
+  imageHeight: number;
+  projection: "rectilinear" | "equirectangular";
+  initialView: { yaw: number; pitch: number; zoom: number };
   description: string;
   historicalNote: string;
   certainty: SceneCertainty;
+  visualNote: string;
+  sourceIds: string[];
   suggestedNext?: string;
   hotspots: SceneHotspot[];
 };

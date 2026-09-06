@@ -1,6 +1,6 @@
 {
   "name": "padilla-antes-del-agua",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,7 +9,11 @@
     "lint": "next lint",
     "images:audit": "node scripts/prepare-images.mjs --audit",
     "images:prepare": "node scripts/prepare-images.mjs --prepare",
-    "images:all": "npm run images:audit && npm run images:prepare"
+    "images:all": "npm run images:audit && npm run images:prepare",
+    "test": "node --test tests/*.test.mjs",
+    "images:check": "node scripts/prepare-images.mjs --check",
+    "scenes:check": "node scripts/validate-scenes.mjs",
+    "validate": "npm run scenes:check && npm run images:check && npm test && npm run lint"
   },
   "dependencies": {
     "@photo-sphere-viewer/core": "^5.14.0",

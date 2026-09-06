@@ -1,114 +1,31 @@
 "use client";
 
 import { ChevronDown, ChevronUp, Home, Info, List } from "lucide-react";
-import clsx from "clsx";
 import { useState } from "react";
 import type { Scene } from "@/types/scene";
+import { SceneNarrative } from "./SceneNarrative";
 
-type MobileSceneDrawerProps = {
-  scene: Scene;
-  scenes: Scene[];
-  currentIndex: number;
-  total: number;
-  open: boolean;
-  onToggle: () => void;
-  onSelect: (sceneId: string) => void;
-  onHome: () => void;
-  onNext: () => void;
-  onHelp: () => void;
+type Props = {
+  scene: Scene; scenes: Scene[]; currentIndex: number; total: number; open: boolean;
+  onToggle: () => void; onSelect: (id: string) => void; onHome: () => void; onNext: () => void; onHelp: () => void; onSources: () => void;
 };
-
-export function MobileSceneDrawer({
-  scene,
-  scenes,
-  currentIndex,
-  total,
-  open,
-  onToggle,
-  onSelect,
-  onHome,
-  onNext,
-  onHelp
-}: MobileSceneDrawerProps) {
-  const [showNodes, setShowNodes] = useState(false);
-
-  return (
-    <section
-      className={clsx(
-        "drawer-shadow fixed inset-x-0 bottom-0 z-30 rounded-t-xl border border-paper/14 bg-night/88 backdrop-blur-xl transition-transform duration-300 md:hidden",
-        open ? "translate-y-0" : "translate-y-[calc(100%-4.85rem)]"
-      )}
-    >
-      <button
-        type="button"
-        onClick={onToggle}
-        className="flex min-h-[4.85rem] w-full items-center justify-between gap-3 px-4 py-3 text-left"
-      >
-        <div className="min-w-0">
-          <p className="text-[11px] uppercase tracking-[0.18em] text-sepia">Nodo {currentIndex + 1} de {total}</p>
-          <h1 className="mt-1 truncate text-lg font-semibold leading-tight text-paper">{scene.title}</h1>
-          {!open && <p className="mt-1 truncate text-xs text-paper/62">{scene.subtitle}</p>}
-        </div>
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-paper/15 bg-paper/[0.055] text-paper/72">
-          {open ? <ChevronDown size={22} /> : <ChevronUp size={22} />}
-        </span>
-      </button>
-
-      <div className="max-h-[68vh] overflow-y-auto px-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
-        <p className="text-sm leading-relaxed text-paper/74">{scene.subtitle}</p>
-        <p className="mt-4 text-sm leading-relaxed text-paper/82">{scene.description}</p>
-        <div className="mt-4 rounded-md border border-paper/12 bg-paper/[0.055] p-3 text-sm leading-relaxed text-paper/76">
-          <span className="mb-1 block text-xs uppercase tracking-[0.16em] text-sepia">Nota histórica</span>
-          {scene.historicalNote}
-        </div>
-
-        <button type="button" onClick={onNext} className="mt-4 min-h-12 w-full rounded-md bg-sepia px-4 py-3 text-sm font-semibold text-night">
-          Siguiente punto
-        </button>
-
-        <div className="mt-2 grid grid-cols-3 gap-2">
-          <button type="button" onClick={onHome} className="min-h-12 rounded-md border border-paper/15 px-2 py-3 text-sm text-paper/80">
-            <Home className="mx-auto mb-1" size={16} />
-            Inicio
-          </button>
-          <button type="button" onClick={onHelp} className="min-h-12 rounded-md border border-paper/15 px-2 py-3 text-sm text-paper/80">
-            <Info className="mx-auto mb-1" size={16} />
-            Ayuda
-          </button>
-          <button
-            type="button"
-            onClick={() => setShowNodes((value) => !value)}
-            className="min-h-12 rounded-md border border-paper/15 px-2 py-3 text-sm text-paper/80"
-            aria-expanded={showNodes}
-          >
-            <List className="mx-auto mb-1" size={16} />
-            Nodos
-          </button>
-        </div>
-
-        {showNodes && (
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
-            {scenes.map((item) => (
-              <button
-                type="button"
-                key={item.id}
-                onClick={() => onSelect(item.id)}
-                className={clsx(
-                  "min-h-[4.25rem] min-w-[132px] rounded-md border px-3 py-2 text-left",
-                  item.id === scene.id
-                    ? "border-sepia bg-sepia/20 text-paper"
-                    : "border-paper/12 bg-paper/[0.045] text-paper/68"
-                )}
-              >
-                <span className="block text-[11px] uppercase tracking-[0.14em] text-sepia">
-                  {item.order > 13 ? "Bonus" : `Nodo ${item.order}`}
-                </span>
-                <span className="mt-1 line-clamp-2 block text-sm leading-tight">{item.title}</span>
-              </button>
-            ))}
-          </div>
-        )}
+export function MobileSceneDrawer({ scene, scenes, currentIndex, total, open, onToggle, onSelect, onHome, onNext, onHelp, onSources }: Props) {
+  const [showViews, setShowViews] = useState(false);
+  return <section className="drawer-shadow fixed inset-x-0 bottom-0 z-30 rounded-t-xl border border-paper/[0.15] bg-night/[0.95] pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden" aria-label="Relato y navegación">
+    <button type="button" onClick={onToggle} aria-expanded={open} aria-controls="mobile-story" className="flex min-h-[4.85rem] w-full items-center justify-between gap-3 px-4 py-3 text-left">
+      <span className="min-w-0"><span className="block text-[11px] uppercase tracking-widest text-sepia">Vista {currentIndex + 1} de {total} · Recreación</span><span className="mt-1 block truncate text-base font-semibold">{scene.title}</span></span>
+      {open ? <ChevronDown size={23} /> : <ChevronUp size={23} />}
+    </button>
+    {open && <div id="mobile-story" className="max-h-[65dvh] overflow-y-auto px-4 pb-5">
+      <p className="mb-4 text-sm text-paper/[0.65]">{scene.subtitle}</p>
+      <SceneNarrative scene={scene} onSources={onSources} />
+      <button type="button" onClick={onNext} className="mt-5 min-h-12 w-full rounded-md bg-sepia text-sm font-semibold text-night">Siguiente vista</button>
+      <div className="mt-2 grid grid-cols-3 gap-2">
+        <button type="button" onClick={onHome} className="viewer-button text-xs"><Home size={16} />Inicio</button>
+        <button type="button" onClick={onHelp} className="viewer-button text-xs"><Info size={16} />Ayuda</button>
+        <button type="button" onClick={() => setShowViews(value => !value)} aria-expanded={showViews} className="viewer-button text-xs"><List size={16} />Vistas</button>
       </div>
-    </section>
-  );
+      {showViews && <nav aria-label="Vistas del recorrido" className="mt-3 grid grid-cols-2 gap-2">{scenes.map(item => <button key={item.id} type="button" aria-current={item.id === scene.id ? "step" : undefined} onClick={() => onSelect(item.id)} className={"min-h-16 rounded-md border p-3 text-left text-sm " + (item.id === scene.id ? "border-sepia bg-sepia/[0.15]" : "border-paper/[0.15]")}><span className="block text-xs text-sepia">{item.order}</span>{item.title}</button>)}</nav>}
+    </div>}
+  </section>;
 }
