@@ -2,17 +2,16 @@
 
 import Image from "next/image";
 import { ArrowRight, BookOpen, MapPin } from "lucide-react";
-import assets from "@/data/scene-assets.json";
 
 export function IntroOverlay({ onEnter, onSources }: { onEnter: () => void; onSources: () => void }) {
   return <section className="fixed inset-0 z-40 overflow-y-auto bg-night text-paper">
-    <Image src={assets["plaza-vista-escuela"].image} alt="Recreación de la antigua escuela de Padilla con su acceso de tres arcos." fill priority sizes="100vw" className="object-cover object-[48%_center]" />
+    <Image src="/intro/padilla-portada.webp" alt="Recreación de la antigua escuela de Padilla con su acceso de tres arcos." fill priority sizes="100vw" className="object-cover object-[48%_center]" />
     <div className="absolute inset-0 bg-gradient-to-r from-night/[0.9] via-night/[0.55] to-night/[0.1]" />
     <div className="absolute inset-0 bg-gradient-to-t from-night/[0.85] via-transparent to-transparent" />
     <div className="relative flex min-h-[100dvh] items-end px-6 pb-[calc(2rem+env(safe-area-inset-bottom))] pt-12 md:items-center md:px-12">
       <div className="max-w-xl">
         <p className="mb-5 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-sepia"><MapPin size={15} />Villa de Padilla, Tamaulipas</p>
-        <p className="mb-3 text-sm text-paper/[0.75]">Una mirada hacia 1950</p>
+        <p className="mb-3 text-sm text-paper/[0.75]">Hacia 1950 · Recorrido 360°</p>
         <h1 className="text-5xl font-semibold leading-[1.03] tracking-tight md:text-7xl">Padilla antes del agua</h1>
         <p className="mt-5 max-w-lg text-base leading-relaxed text-paper/[0.9] md:text-lg">Una escuela, sus habitantes y la vida cotidiana del pueblo antes de la presa Vicente Guerrero.</p>
         <p className="mt-4 max-w-md text-sm leading-relaxed text-paper/[0.65]">Recorrido interpretativo con imágenes recreadas a partir de referencias del edificio y del contexto histórico.</p>

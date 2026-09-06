@@ -1,6 +1,6 @@
 # Padilla antes del agua
 
-Recorrido interpretativo por la escuela Miguel Hidalgo de Viejo Padilla, Tamaulipas, ambientado **hacia 1950**. Ocho momentos de la vida escolar combinan imágenes ampliables, panoramas y fuentes históricas. Las recreaciones no sustituyen fotografías, planos o testimonios del inmueble.
+Recorrido interpretativo por la escuela Miguel Hidalgo de Viejo Padilla, Tamaulipas, ambientado **hacia 1950**. Ocho momentos de la vida escolar combinan panoramas 360° y fuentes históricas. Las recreaciones no sustituyen fotografías, planos o testimonios del inmueble.
 
 ## Desarrollo
 
@@ -19,7 +19,7 @@ npm run build
 npm run start
 ```
 
-`validate` comprueba escenas, fuentes, enlaces, imágenes activas, pruebas del conversor y ESLint. El build comprueba también TypeScript.
+`validate` comprueba escenas, fuentes, enlaces, imágenes activas, conversión, permisos de movimiento, continuidad del giroscopio entre panoramas y ESLint. El build comprueba también TypeScript.
 
 ## Contenido
 
@@ -33,7 +33,9 @@ Los enlaces antiguos se conservan mediante alias. La secuencia es narrativa: los
 
 ## Imágenes
 
-Los WebP se sirven desde `public/scenes/1950/`. Las nuevas vistas de fachada, acceso y aula conservan su encuadre en un visor de imagen. Los panoramas heredados mantienen exploración 360° y la opción de imagen completa. Si WebGL2 no está disponible, se pierde el contexto gráfico o falla la carga, el recorrido pasa a imagen ampliable.
+Los WebP se sirven desde `public/scenes/1950/`. Las nuevas vistas de fachada, acceso y aula son entornos esféricos completos 360° × 180°; las otras cuatro ilustraciones panorámicas se conservan. El recorrido abre siempre en 360°. Si falla WebGL2 o la carga, muestra un aviso con reintento y una opción explícita para consultar la imagen de respaldo. No cambia silenciosamente a una imagen plana.
+
+La portada estática usa `/intro/padilla-portada.webp` (960 × 480); no forma parte de las escenas navegables. Consulta los [prompts y límites de los nuevos panoramas](docs/panoramas-360.md).
 
 ```bash
 npm run images:audit
@@ -57,10 +59,10 @@ Una proporción 2:1 es necesaria para un panorama equirectangular completo, pero
 
 - Escritorio: panel plegable, ocho vistas inferiores, botones de zoom y arrastre.
 - Celular: abre el título inferior para leer, avanzar, elegir vista o consultar fuentes.
-- Teclado en la imagen: +, − y 0 para zoom; flechas para desplazarla.
+- En la imagen de respaldo: +, − y 0 para zoom; flechas para desplazarla.
 - Fuentes y ayuda usan diálogos con foco contenido y cierre con Escape.
 - Cada vista tiene un fragmento de URL compartible y respeta Atrás/Adelante.
-- El movimiento del dispositivo es opcional y requiere compatibilidad y permiso.
+- En el teléfono: toca **Activar giroscopio** y concede el permiso de movimiento. Safari necesita que la solicitud se inicie desde ese toque y que el sitio use HTTPS. La misma instancia del visor conserva el movimiento al cambiar de escena. El control sigue visible en teléfonos en horizontal.
 
 ## Vercel
 

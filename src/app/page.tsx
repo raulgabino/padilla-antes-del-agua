@@ -22,8 +22,8 @@ function HelpDialog({ onClose }: { onClose: () => void }) {
     <div className="rounded-xl border border-paper/[0.15] bg-night p-6">
       <div className="flex items-center justify-between"><h2 id="help-title" className="text-2xl font-semibold">Cómo explorar</h2><button type="button" className="viewer-button" onClick={onClose} aria-label="Cerrar ayuda"><X size={19} /></button></div>
       <div className="mt-5 space-y-4 text-sm leading-relaxed text-paper/[0.85]">
-        <p>En las imágenes, usa + para acercarte y arrastra para recorrer el detalle. “Ver completa” recupera el encuadre. También puedes usar +, −, 0 y las flechas del teclado.</p>
-        <p>En las vistas 360°, arrastra para mirar alrededor. “Ver imagen” permite consultar la ilustración completa. En un celular compatible puedes activar el movimiento del dispositivo.</p>
+        <p>Todas las vistas del recorrido se exploran en 360°. Arrastra para mirar alrededor, usa la rueda del ratón o pellizca con dos dedos para acercarte.</p>
+        <p>En el teléfono, toca “Activar giroscopio” y acepta el permiso de movimiento. Después podrás mirar alrededor al girar e inclinar el teléfono. El movimiento permanece activo al pasar a otra vista.</p>
         <p>“Siguiente” sigue la secuencia del relato. Los puntos enlazan escenas; no indican un itinerario medido dentro del edificio.</p>
         <p>En el celular, toca el título inferior para leer la historia. En computadora, oculta el panel para ampliar el espacio de la imagen.</p>
         <p>La ambientación permanece hacia 1950. “Fuentes y contexto” reúne las referencias y explica el alcance de las recreaciones.</p>
@@ -40,6 +40,7 @@ export default function Home() {
   const [sourcesOpen, setSourcesOpen] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const [gyroscopeControls, setGyroscopeControls] = useState<GyroscopeControls | null>(null);
+  const [viewerLoading, setViewerLoading] = useState(true);
   const scene = getSceneById(sceneId);
   const currentIndex = scenes.findIndex(item => item.id === scene.id);
 
@@ -78,8 +79,8 @@ export default function Home() {
 
   return <main className="relative h-[100dvh] w-screen overflow-hidden bg-night text-paper">
     {showIntro ? <IntroOverlay onEnter={() => goToScene(scenes[0].id)} onSources={() => setSourcesOpen(true)} /> : <>
-      <PanoramaViewer scene={scene} panelOpen={!panelHidden} onNavigate={goToScene} onGyroscopeReady={setGyroscopeControls} />
-      {gyroscopeControls && <GyroscopeControl controls={gyroscopeControls} />}
+      <PanoramaViewer scene={scene} panelOpen={!panelHidden} onNavigate={goToScene} onGyroscopeReady={setGyroscopeControls} onLoadingChange={setViewerLoading} />
+      {gyroscopeControls && <GyroscopeControl controls={gyroscopeControls} disabled={viewerLoading} />}
       <div className="pointer-events-none absolute left-4 right-4 top-4 z-10 flex items-start justify-between md:left-auto">
         <div className="md:hidden"><p className="text-[10px] uppercase tracking-[0.18em] text-sepia">Padilla antes del agua</p><p className="mt-1 text-xs text-paper/[0.75]">Hacia 1950</p></div>
         <p className="rounded-full border border-paper/[0.15] bg-night/[0.8] px-3 py-2 text-xs">Vista {currentIndex + 1} de {scenes.length}</p>

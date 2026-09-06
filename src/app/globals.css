@@ -124,6 +124,10 @@ a {
 }
 .viewer-button:hover { border-color: #c9a56a; }
 .viewer-button:disabled { opacity: 0.4; cursor: default; }
+.motion-controls { display: none; }
+@media (any-pointer: coarse), (max-width: 767px) {
+  .motion-controls { display: flex; }
+}
 button:focus-visible, a:focus-visible { outline: 2px solid #c9a56a; outline-offset: 3px; }
 .source-link { display: inline-flex; align-items: center; gap: 0.4rem; color: #d8b97f; text-decoration: underline; text-underline-offset: 3px; }
 .sources-dialog { width: min(760px, calc(100vw - 2rem)); max-height: 90dvh; padding: 0; border: 0; background: transparent; color: #f1e4cf; }

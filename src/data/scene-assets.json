@@ -1,15 +1,15 @@
 {
   "plaza-vista-escuela": {
-    "image": "/scenes/1950/fachada-reconstruida-v2.webp",
+    "image": "/scenes/1950/fachada-360-v3.webp",
     "imageWidth": 1774,
     "imageHeight": 887,
-    "projection": "rectilinear"
+    "projection": "equirectangular"
   },
   "fachada": {
-    "image": "/scenes/1950/acceso-tres-arcos-v2.webp",
+    "image": "/scenes/1950/acceso-360-v3.webp",
     "imageWidth": 1774,
     "imageHeight": 887,
-    "projection": "rectilinear"
+    "projection": "equirectangular"
   },
   "zaguan": {
     "image": "/scenes/1950/n04-zaguan-acceso-interior.webp",
@@ -18,10 +18,10 @@
     "projection": "equirectangular"
   },
   "aula": {
-    "image": "/scenes/1950/aula-recreada-v2.webp",
+    "image": "/scenes/1950/aula-360-v3.webp",
     "imageWidth": 1774,
     "imageHeight": 887,
-    "projection": "rectilinear"
+    "projection": "equirectangular"
   },
   "direccion": {
     "image": "/scenes/1950/n09-direccion-oficina.webp",
@@ -42,9 +42,9 @@
     "projection": "equirectangular"
   },
   "memoria": {
-    "image": "/scenes/1950/fachada-reconstruida-v2.webp",
+    "image": "/scenes/1950/fachada-360-v3.webp",
     "imageWidth": 1774,
     "imageHeight": 887,
-    "projection": "rectilinear"
+    "projection": "equirectangular"
   }
 }

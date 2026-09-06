@@ -2,7 +2,7 @@
 
 Revisión: 6 de septiembre de 2026.
 
-Se generaron tres imágenes interpretativas con ChatGPT Image. Se conserva el archivo fuente de cada generación en la conversación y se incorporan al repositorio sus versiones WebP, calidad 92. Las tres salidas recibidas miden **1774 × 887 píxeles**, aunque los prompts pidieran una resolución mayor. No se reescalaron para simular más detalle.
+Se generaron tres imágenes interpretativas iniciales y después tres panoramas completos con ChatGPT Image. Los **panoramas v3** son los activos: véanse [procedencia, prompts y comprobación esférica](panoramas-360.md). Se conservan los archivos fuente de cada generación en la conversación y sus versiones WebP, calidad 92, en el repositorio. Las salidas recibidas miden **1774 × 887 píxeles**, aunque los prompts pidieran una resolución mayor. No se reescalaron para simular más detalle.
 
 La fachada utiliza tres arcos como ancla documental. Acabados, cubiertas, colores, vegetación y figuras humanas son interpretativos. El aula no reproduce un interior conocido.
 
@@ -10,11 +10,11 @@ La fachada utiliza tres arcos como ancla documental. Acabados, cubiertas, colore
 
 La fotografía de referencia se sirve como `public/intro/padilla-referencia.webp`, conservando sus 2204 × 1112 píxeles, sin recorte ni alteración del contenido. Es una conversión de formato con calidad 92 para reducir la descarga. El PNG original permanece en el repositorio.
 
-Las tres imágenes nuevas son perspectivas rectilíneas 2:1 y se muestran completas, con zoom y arrastre; no se declaran panoramas 360°. Las cuatro ilustraciones panorámicas heredadas conservan ese modo, con acercamiento limitado por su resolución. Sus bordes, polos y objetos generados pueden presentar discontinuidades: no son capturas fotográficas calibradas. El modo de imagen completa permite consultar cada ilustración sin depender de WebGL2.
+Las tres perspectivas rectilíneas v2 que documenta esta página fueron sustituidas en el recorrido por panoramas v3. La fachada v2 se usa únicamente como portada estática, reducida a 960 × 480 y 59580 bytes en `public/intro/padilla-portada.webp` (WebP calidad 80). Las cuatro ilustraciones panorámicas heredadas conservan su contenido. Todo el recorrido vuelve a abrir en 360°, con acercamiento limitado por su resolución. La consulta de una imagen de respaldo sólo se ofrece explícitamente cuando el visor presenta un error.
 
 El manifiesto `src/data/scene-assets.json` contiene ocho escenas y siete archivos únicos. La fachada se reutiliza en el cierre para mantener la identidad del edificio. Los archivos retirados permanecen en el repositorio pero no se precargan.
 
-## Prompts conservados
+## Prompts conservados de las perspectivas v2, retiradas del recorrido
 
 Los prompts expresan instrucciones de generación, no hechos históricos ni garantía de que cada detalle haya sido reproducido exactamente.
 

@@ -22,6 +22,7 @@ const errors = [];
 if (ids.size !== scenes.length) errors.push("Hay identificadores repetidos.");
 if (scenes.length !== Object.keys(manifest).length) errors.push("Las escenas y el manifiesto no coinciden.");
 for (const [index, scene] of scenes.entries()) {
+  if (scene.projection !== "equirectangular") errors.push("El recorrido debe conservar el modo 360°: " + scene.id);
   if (scene.order !== index + 1) errors.push("Orden inconsistente: " + scene.id);
   if (!ids.has(scene.suggestedNext)) errors.push("Siguiente vista inexistente: " + scene.id);
   if (!scene.visualNote || !scene.sourceIds.length) errors.push("Falta el alcance o las fuentes: " + scene.id);
