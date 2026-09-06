@@ -38,7 +38,7 @@ export function SourcesDialog({ scene, onClose }: { scene: Scene; onClose: () =>
             </ol>
           </section>
           <figure>
-            <Image src="/intro/padilla-entrada.png" alt="Fotografía del edificio conservado: acceso central de tres arcos y galerías laterales." width={2204} height={1112} sizes="(max-width: 767px) 90vw, 660px" className="h-auto w-full rounded-lg" />
+            <Image src="/intro/padilla-referencia.webp" alt="Fotografía del edificio conservado: acceso central de tres arcos y galerías laterales." width={2204} height={1112} sizes="(max-width: 767px) 90vw, 660px" className="h-auto w-full rounded-lg" />
             <figcaption className="mt-2 text-xs text-paper/[0.65]">Referencia del edificio conservado, incorporada al proyecto. Autor y fecha por identificar. Esta fotografía está fuera de la ambientación de 1950.</figcaption>
           </figure>
           <section aria-label="Referencias de esta vista">

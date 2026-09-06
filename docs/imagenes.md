@@ -8,6 +8,8 @@ La fachada utiliza tres arcos como ancla documental. Acabados, cubiertas, colore
 
 ## Presentación
 
+La fotografía de referencia se sirve como `public/intro/padilla-referencia.webp`, conservando sus 2204 × 1112 píxeles, sin recorte ni alteración del contenido. Es una conversión de formato con calidad 92 para reducir la descarga. El PNG original permanece en el repositorio.
+
 Las tres imágenes nuevas son perspectivas rectilíneas 2:1 y se muestran completas, con zoom y arrastre; no se declaran panoramas 360°. Las cuatro ilustraciones panorámicas heredadas conservan ese modo, con acercamiento limitado por su resolución. Sus bordes, polos y objetos generados pueden presentar discontinuidades: no son capturas fotográficas calibradas. El modo de imagen completa permite consultar cada ilustración sin depender de WebGL2.
 
 El manifiesto `src/data/scene-assets.json` contiene ocho escenas y siete archivos únicos. La fachada se reutiliza en el cierre para mantener la identidad del edificio. Los archivos retirados permanecen en el repositorio pero no se precargan.
@@ -45,4 +47,3 @@ Referencia: Aula previa `n10-aula-clases.webp` y nueva fachada como referencia d
 ```text
 Use case: historical-scene. Asset: a rectilinear classroom illustration for 'Padilla antes del agua', set around 1950. Reference image 1 (the existing classroom) is the edit target; reference image 2 (the reconstructed exterior) gives material and daylight continuity. Rework the classroom into a natural, carefully composed wide photograph, with straight verticals and a normal architectural perspective, NOT fisheye and NOT a 360 panorama. Preserve its modest village-school character and broad arrangement, warm ivory plaster, dark timber doors, simple wood desks and natural daylight, but reduce the crowd to around twelve children at sensible distances so anatomy, hands and scale remain clear. A female teacher conducts a simple arithmetic exercise. Varied plain period-appropriate clothing; do not imply a documented uniform. Remove portraits of identifiable political figures, flags, printed calendars, generated fake notices, decorative maps and illegible lettering. Blackboard text only: '2 + 3 = 5', small and handwritten; no other text. Pupils use plain notebooks and pencils; no modern objects, branded textbooks, electronics or synthetic school bags. Keep exterior glimpses quiet, with a simple shaded gallery, never a second full facade or a newly invented building. The light and plaster tones should match the exterior reference. This is an explicitly interpretive classroom, not an assertion of the actual building floorplan. Single photorealistic wide landscape image, 2:1 aspect ratio, highest native detail possible, ideally 3072x1536 or greater. No watermarks or captions.
 ```
-

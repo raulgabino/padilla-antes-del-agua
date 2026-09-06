@@ -36,7 +36,7 @@ export const historicalSources: HistoricalSource[] = [
     id: "foto-fachada",
     title: "Fotografía de la fachada conservada",
     publisher: "Imagen incorporada al proyecto · autor y fecha por identificar",
-    url: "/intro/padilla-entrada.png",
+    url: "/intro/padilla-referencia.webp",
     scope: "Permite observar el acceso de tres arcos y la silueta conservada. Los acabados, cubiertas restituidas, colores y personas de la reconstrucción son interpretaciones.",
     kind: "fotográfico"
   }
